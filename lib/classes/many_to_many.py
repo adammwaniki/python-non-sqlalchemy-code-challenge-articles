@@ -87,10 +87,14 @@ class Author:
     #     return result
 
     def add_article(self, magazine, title):
-        pass
+        return Article(self, magazine, title)
 
     def topic_areas(self):
-        pass
+        result = set()
+        for magazine in self.magazines():
+            result.add(magazine.category)
+        # So apparently in python you can include an if statement in the return statement which is pretty cool tbh 
+        return list(result) if result else None
 
 class Magazine:
     def __init__(self, name, category):
@@ -139,7 +143,20 @@ class Magazine:
     #     return list(set(article.author for article in self.articles()))
 
     def article_titles(self):
-        pass
+        result = []
+        for article in Article.all:
+           if article.magazine == self:
+               result.append(article.title)
+        return result if result else None
 
     def contributing_authors(self):
-        pass
+        author_count = {}
+        for article in Article.all:
+            if article.magazine == self:
+                if article.author in author_count:
+                    author_count[article.author] += 1
+                else:
+                    author_count[article.author] = 1
+
+        result = [author for author, count in author_count.items() if count > 2]
+        return result if result else None

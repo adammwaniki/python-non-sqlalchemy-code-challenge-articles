@@ -1,5 +1,5 @@
 class Article:
-    
+
     all = []
 
     def __init__(self, author, magazine, title):
@@ -63,10 +63,28 @@ class Author:
             raise ValueError("Title must be of type str and longer than 0 characters.")
 
     def articles(self):
-        pass
+        result = []
+        for article in Article.all:
+            if article.author == self:
+                result.append(article)
+        return result
+
+    # Alternatively we can use list comprehension
+    # def articles(self):
+    #    return [article for article in Article.all if article.author == self]
 
     def magazines(self):
-        pass
+        # Since we need unique values we initialise a set that we will later convert into a list    
+        result = set()  
+        for article in Article.all:
+            if article.author == self:
+                result.add(article.magazine)
+        return list(result)
+
+    # Alternatively we can handle it this way
+    # def magazines(self):
+    #     result = list(set(article.magazine for article in Article.all if article.author == self))
+    #     return result
 
     def add_article(self, magazine, title):
         pass
@@ -102,10 +120,23 @@ class Magazine:
             raise ValueError("Category must be of type str and longer than 0 characters.")
 
     def articles(self):
-        pass
+        result = []
+        for article in Article.all:
+            if article.magazine == self:
+                result.append(article)
+        return result
 
     def contributors(self):
-        pass
+        # Same as before in the Author class, since we need unique values we initialise a set that we will later convert into a list    
+        result = set()  
+        for article in Article.all:
+            if article.magazine == self:
+                result.add(article.author)
+        return list(result)
+    
+    # Alternatively
+    # def contributors(self):
+    #     return list(set(article.author for article in self.articles()))
 
     def article_titles(self):
         pass

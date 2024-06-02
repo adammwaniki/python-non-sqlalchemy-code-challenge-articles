@@ -160,3 +160,20 @@ class Magazine:
 
         result = [author for author, count in author_count.items() if count > 2]
         return result if result else None
+    
+    # Since top_publisher needs to keep track of all the magazine objects we can handle it using the class method
+    # I'll test this later
+    @classmethod
+    def top_publisher(cls):
+        if not Article.all:
+            return None
+        
+        magazine_article_count = {magazine: 0 for magazine in cls.all_magazines}
+
+        for article in Article.all:
+            if article.magazine in magazine_article_count:
+                magazine_article_count[article.magazine] += 1
+
+        top_magazine = max(magazine_article_count, key=magazine_article_count.get, default=None)
+
+        return top_magazine if magazine_article_count[top_magazine] > 0 else None

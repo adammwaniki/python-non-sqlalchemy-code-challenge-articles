@@ -97,9 +97,12 @@ class Author:
         return list(result) if result else None
 
 class Magazine:
+    magazines = []
+
     def __init__(self, name, category):
         self.name = name
         self.category = category
+        Magazine.magazines.append(self)
 
     @property
     def name(self):
@@ -165,15 +168,7 @@ class Magazine:
     # I'll test this later
     @classmethod
     def top_publisher(cls):
-        if not Article.all:
+        if not cls.magazines:
             return None
-        
-        magazine_article_count = {magazine: 0 for magazine in cls.all_magazines}
-
-        for article in Article.all:
-            if article.magazine in magazine_article_count:
-                magazine_article_count[article.magazine] += 1
-
-        top_magazine = max(magazine_article_count, key=magazine_article_count.get, default=None)
-
-        return top_magazine if magazine_article_count[top_magazine] > 0 else None
+        top_magazine = max(cls.magazines, key=lambda mag: len(mag.articles()))
+        return top_magazine if top_magazine.articles() else None

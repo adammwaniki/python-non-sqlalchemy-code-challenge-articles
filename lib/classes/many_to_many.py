@@ -165,7 +165,6 @@ class Magazine:
         return result if result else None
     
     # Since top_publisher needs to keep track of all the magazine objects we can handle it using the class method
-    # I'll test this later
     @classmethod
     def top_publisher(cls):
         if not cls.magazines:
